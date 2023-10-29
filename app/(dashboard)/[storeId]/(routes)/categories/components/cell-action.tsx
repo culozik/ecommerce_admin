@@ -18,7 +18,7 @@ import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { DropdownAlertModal } from "@/components/modals/dropdown-alert-modal";
 
-import { BillboardColumn } from "./columns";
+import { CategoryColumn } from "./columns";
 
 import {
 	handleClickCapture,
@@ -28,10 +28,10 @@ import {
 	handleSelect,
 } from "@/app/helpers/billboards/functions";
 
-import { TEXT } from "@/constants/components/billboards/constants";
+import { TEXT } from "@/constants/components/categories/constants";
 
 interface CellActionProps {
-	data: BillboardColumn;
+	data: CategoryColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -49,7 +49,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 	};
 
 	const onUpdate = () => {
-		router.push(`/${params.storeId}/billboards/${data.id}`);
+		router.push(`/${params.storeId}/categories/${data.id}`);
 	};
 
 	const onDelete = async () => {
@@ -57,7 +57,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 			setIsModalOpen(false);
 			setLoading(true);
 
-			await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+			await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
 
 			toast.success(CELL_ACTIONS.ON_DELETE_SUCCESS);
 			router.refresh();

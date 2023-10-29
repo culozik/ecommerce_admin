@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Trash } from "lucide-react";
-import { Category } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
@@ -21,9 +21,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
 	Select,
+	SelectItem,
+	SelectValue,
 	SelectContent,
 	SelectTrigger,
-	SelectValue,
 } from "@/components/ui/select";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -35,9 +36,10 @@ import type { CategoryFormValues } from "@/schemas/categoryFormSchema";
 
 interface CategoryFormProps {
 	initialData: Category | null;
+	billboards: Billboard[];
 }
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
+export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData , billboards}) => {
 	const params = useParams();
 	const router = useRouter();
 
@@ -62,15 +64,15 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			setLoading(true);
 			if (initialData) {
 				await axios.patch(
-					`/api/${params.storeId}/billboards/${params.billboardId}`,
+					`/api/${params.storeId}/categories/${params.categoryId}`,
 					data
 				);
 			} else {
-				await axios.post(`/api/${params.storeId}/billboards`, data);
+				await axios.post(`/api/${params.storeId}/categories`, data);
 			}
 
 			router.refresh();
-			router.push(`/${params.storeId}/billboards`);
+			router.push(`/${params.storeId}/categories`);
 			toast.success(toastMessage);
 		} catch (err) {
 			toast.error("Something went wrong.");
@@ -84,14 +86,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			setLoading(true);
 
 			await axios.delete(
-				`/api/${params.storeId}/billboards/${params.billboardId}`
+				`/api/${params.storeId}/categories/${params.categoryId}`
 			);
 			router.refresh();
-			router.push(`/${params.storeId}/billboards`);
-			toast.success("Billboard deleted.");
+			router.push(`/${params.storeId}/categories`);
+			toast.success("Category deleted.");
 		} catch (err) {
 			toast.error(
-				"Make sure you removed all categories using this billboard first."
+				"Make sure you removed all products using this category first."
 			);
 		} finally {
 			setLoading(false);
@@ -172,7 +174,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 												/>
 											</SelectTrigger>
 										</FormControl>
-										<SelectContent></SelectContent>
+										<SelectContent>
+											{billboards.map(billboard => (
+												<SelectItem 
+												key={billboard.id}
+												value={billboard.id}
+												>
+													{billboard.label}
+												</SelectItem>
+											))}
+										</SelectContent>
 									</Select>
 									<FormMessage />
 								</FormItem>
