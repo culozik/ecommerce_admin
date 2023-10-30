@@ -19,13 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-	Select,
-	SelectItem,
-	SelectValue,
-	SelectContent,
-	SelectTrigger,
-} from "@/components/ui/select";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -89,9 +82,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
 			router.push(`/${params.storeId}/sizes`);
 			toast.success("Size deleted.");
 		} catch (err) {
-			toast.error(
-				"Make sure you removed all products using this size first."
-			);
+			toast.error("Make sure you removed all products using this size first.");
 		} finally {
 			setLoading(false);
 			setOpen(false);
