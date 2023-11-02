@@ -18,9 +18,9 @@ import {
 	TFormEntityData,
 	SelectFormFieldProps,
 	FormEntitiesDataProps,
-} from "@/types/components/selectFormFieldTypes";
+} from "@/types/components/select-form-field-types";
 
-import { TEXT } from "@/constants/components/reusableComponents/selectFormFields";
+import { TEXT } from "@/constants/components/reusableComponents/select-form-field";
 
 export const SelectFormField: React.FC<SelectFormFieldProps<any>> = ({
 	form,
